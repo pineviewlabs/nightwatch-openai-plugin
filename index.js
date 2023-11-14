@@ -1,7 +1,5 @@
 const https = require('https');
 const axios = require('axios');
-const FormData = require('form-data');
-const fs = require('fs');
 const path = require('path');
 const marked = require('marked');
 const { markedTerminal } = require('marked-terminal');
@@ -21,22 +19,20 @@ const { SERVICE_URL } = process.env;
  * code snippet, and a screenshot file.
  * @param {String} errorMessage - The error message including stack trace.
  * @param {String} codeSnippet - A code snippet from the test case.
- * @param {String} screenshotPath - The file path to the screenshot image.
  * @param {Object} additionalDetails
  */
-function sendErrorAnalysisRequest({errorMessage, codeSnippet, screenshotPath, additionalDetails}) {
-  const form = new FormData();
+function sendErrorAnalysisRequest({errorMessage, codeSnippet, additionalDetails}) {
+  const payload = {
+    errorMessage,
+    codeSnippet,
+    additionalDetails
+  };
 
-  form.append('errorMessage', errorMessage);
-  form.append('codeSnippet', codeSnippet);
-  form.append('additionalDetails', JSON.stringify(additionalDetails));
-  form.append('screenshot', fs.createReadStream(screenshotPath));
-
-  const headers = form.getHeaders();
+  const headers = { 'Content-Type': 'application/json' };
 
   console.log('Running error analysis...');
 
-  return axios.post(SERVICE_URL, form, {
+  return axios.post(SERVICE_URL, payload, {
     headers,
     httpsAgent: new https.Agent({
       rejectUnauthorized: false
