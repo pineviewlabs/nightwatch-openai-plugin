@@ -7,12 +7,16 @@ const dotenv = require('dotenv');
 const stripAnsi = require('strip-ansi');
 const stackTraceParser = require('./utils/stackTrace.js');
 
-dotenv.config({
-  path: path.resolve(__dirname, '.env')
-});
+let SERVICE_URL = process.env.NIGHTWATCH_ANALYSIS_SERVICE_URL;
+if (!SERVICE_URL) {
+  dotenv.config({
+    path: path.resolve(__dirname, '.env')
+  });
+  SERVICE_URL = process.env.SERVICE_URL;
+}
+
 marked.use(markedTerminal());
 
-const { SERVICE_URL } = process.env;
 
 /**
  * Send an API call to the service with the error message, stack trace,
@@ -88,6 +92,12 @@ function getTestFailures(moduleData) {
 
 
 module.exports = {
+  reporterName: 'nightwatch-openai-plugin',
+
+  settings: {
+    timeoutMs: 60000
+  },
+
   async reporter(results) {
 
     const errors = getErrorMessages(results);

@@ -24,10 +24,18 @@ module.exports = {
 }
 ```
 
-## Configuration
-The plugin uses an HTTP API service to interact with the OpenAI API. By default a service is provided for demo purposes, which is configured in the `.env` file. 
+## Configuring the AI Analysis Service
+The plugin uses an HTTP API service to interact with the OpenAI API. By default a service is provided for demo purposes, which is configured in the `.env` file in this project. 
 
 You can host your own service by cloning the [openai-nightwatch-service](https://github.com/pineviewlabs/openai-nightwatch-service) repository and running it with your own OpenAI API key.
+
+When running the [openai-nightwatch-service](https://github.com/pineviewlabs/openai-nightwatch-service), you need to define the `NIGHTWATCH_ANALYSIS_SERVICE_URL` environment variable to point to the service URL. You can also use `.env` files. 
+
+For example, assuming you have the service running at `http://localhost:4001`, you can create a `.env` file with the following content in the root of your Nightwatch project:       
+
+```bash
+NIGHTWATCH_ANALYSIS_SERVICE_URL=http://localhost:4001/analyze-error
+```
 
 ## License
 MIT
