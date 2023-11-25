@@ -1,6 +1,6 @@
 {
   "name": "nightwatch-openai-plugin",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Nightwatch.js plugin which adds a reporter which uses the OpenAI platform to provide AI-assisted error analysis for test failures.",
   "main": "index.js",
   "scripts": {},
